@@ -1,23 +1,44 @@
-import logo from './logo.svg';
 import './App.css';
+import api from './api/axiosConfig';
+import { useState, useEffect } from 'react';
+import Layout from './component/Layout';
+import { Routes, Route } from 'react-router-dom';
+import Home from './component/home/Home';
 
 function App() {
+  const [profiles, setProfiles] = useState();
+  const getProfiles = async () => {
+
+    try {
+      const response = await api.get("/profiles");
+      var msg = "Welcome";
+      console.log(response.data);
+      console.log(msg);
+      setProfiles(response.data);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  useEffect(() => {
+    getProfiles();
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        {/* <Layout></Layout>
+        <Home></Home> */}
+
+      {/* <Routes>
+
+        <Route path="/" element={<Layout />}>
+
+          <Route path="/" element={<Home />} ></Route>
+
+        </Route>
+      </Routes> */}
     </div>
   );
 }
